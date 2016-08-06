@@ -1,0 +1,2 @@
+mongod --bind_ip=$IP --nojournal
+rm /data/db/mongod.lock

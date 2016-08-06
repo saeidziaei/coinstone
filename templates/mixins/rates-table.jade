@@ -1,0 +1,19 @@
+mixin rates-table(rates)
+    table.bordered.rates-table
+        thead
+            tr
+                td
+                    img(src='/images/btc.svg', width='50')
+                th= __("Sell")
+                th= __("Buy")
+        tbody
+            tr
+                td
+                    img(src='/images/au-flag.svg', width='80')
+                td= rates.sellAUD
+                td= rates.buyAUD
+        tr
+            td
+                img(src='/images/ir-flag.svg', width='80')
+            td= rates.sellIRR
+            td= rates.buyIRR
