@@ -14,12 +14,12 @@ mixin flash-message(message, type)
 	div(class='alert alert-' + type)
 		if utils.isObject(message)
 			if message.title
-				h4= message.title
+				h4= __(message.title)
 			if message.detail
-				p= message.detail
+				p= __(message.detail)
 			if message.list
 				ul
 					each item in message.list
-						li= item
+						li= __(item)
 		else
-			= message
+			= __(message)

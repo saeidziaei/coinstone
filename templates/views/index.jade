@@ -1,24 +1,22 @@
 extends ../layouts/default
 
 block content
-	.container: .jumbotron
+	.container
 		img(src='/images/logo.svg', width='160')
-		h1 Welcome
-		h1= __("Hello")
-		p This is your new <a href='http://keystonejs.com' target='_blank'>KeystoneJS</a> website.
-		p It includes the latest versions of
-			| <a href='http://getbootstrap.com/' target='_blank'>Bootstrap</a>
-			| and <a href='http://www.jquery.com/' target='_blank'>jQuery</a>.
-		p Visit the <a href='http://keystonejs.com/guide' target='_blank'>Getting Started</a> guide to learn how to customise it.
-		hr
-		if user && user.canAccessKeystone
-			p
-				a(href='/keystone').btn.btn-lg.btn-primary Open the Admin UI
-		else
-			p We have created a default Admin user for you with the email <strong>sz@builditweb.com.au</strong> and the password <strong>admin</strong>.
-			p
-				a(href='/keystone/signin', style='margin-right: 10px').btn.btn-lg.btn-primary Sign in
-				|  to use the Admin UI.
-		hr
-		p Remember to <a href='https://github.com/keystonejs/keystone' target='_blank'>Star KeystoneJS on GitHub</a> and
-			| <a href='https://twitter.com/keystonejs' target='_blank'>follow @keystonejs</a> on twitter for updates.
+		#index-banner.section.no-pad-bot: .container
+			h1.header.center.orange-text= __("Welcome") 
+			.row.center
+				h5.header.col.s12.light A modern responsive front-end framework based on Material Design
+			.row.center
+				a#download-button.btn-large.waves-effect.waves-light.orange(href='http://materializecss.com/getting-started.html') Get Started
+			br
+	.container: .section: .row
+		.col.s12.m4: .icon-block
+			h2.center.light-blue-text
+				i.material-icons flash_on
+			h5.center Speeds up development
+			p.light
+				| We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
+block js
+	script.
+		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");

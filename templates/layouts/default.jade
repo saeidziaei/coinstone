@@ -11,13 +11,14 @@ html
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		meta(http-equiv="X-UA-Compatible" content="IE=edge")
 
-		title= title || 'Coinava'
+		title= title || __('Coinava')
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
 		//- Customise the stylesheet for your site by editing /public/styles/site.less
 		//- All .less files will be automatically compiled and minified in production.
 		link(href="/styles/site.min.css", rel="stylesheet")
-
+		link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+		
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
 			link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
@@ -36,34 +37,36 @@ html
 		block head
 
 	//- HTML BODY
-	body
+	body(class=locale == 'fa' ? "bodyRTL" : null)
 
-		//- HEADER
-		#header: .container
+		//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
+		//- ... or completely change this header to suit your design.
+		
+		nav.light-blue.lighten-1(role='navigation')
+			.nav-wrapper.container
+				a#logo-container.right.brand-logo(href='#') Logo
+				ul.hide-on-med-and-down
+					each link in navLinks
+						li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+				ul#nav-mobile.side-nav
+					each link in navLinks
+						li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+				a.button-collapse(href='#', data-activates='nav-mobile')
+					i.material-icons menu
+		.container: .section: .row: .col.s12.center-align
+				if user
+					if user.canAccessKeystone
+						a(href='/keystone') Open Keystone
+					a(href='/signout')= __("Sign Out")
+				else
+					a(href='/keystone/signin').btn.waves-effect.waves-light.orange
+						span= __("Sign In")
+						i.material-icons.right input
+					a(href='#modal-auth').modal-trigger.waves-effect.waves-light.btn.orange
+						span= __("Sign Up") 
+						i.material-icons.right touch_app
 
-			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
-			//- ... or completely change this header to suit your design.
 
-			div(role="navigation").navbar.navbar-default
-				.container-fluid
-					.navbar-header
-						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-							span.sr-only Toggle navigation
-							span.icon-bar
-							span.icon-bar
-							span.icon-bar
-						a.navbar-brand(href='/') Coinava
-					.collapse.navbar-collapse
-						ul.nav.navbar-nav.navbar-left
-							each link in navLinks
-								li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
-						ul.nav.navbar-nav.navbar-right
-							if user
-								if user.canAccessKeystone
-									li: a(href='/keystone') Open Keystone
-								li: a(href='/keystone/signout') Sign Out
-							else
-								li: a(href='/keystone/signin') Sign In
 
 		//- BODY
 		#body
@@ -87,20 +90,41 @@ html
 
 
 		//- FOOTER
-		.container: #footer
 
-			//- You don't _have_ to include a link saying your site is powered by KeystoneJS, but we appreciate it!
-			p Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a>.
+		footer.page-footer.orange
+			.container: .row
+				.col.l6.s12
+					h5.white-text Company Bio
+					p.grey-text.text-lighten-4
+						| We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.
+				.col.l3.s12
+					h5.white-text Settings
+					ul
+						li: a.white-text(href='#!') Link 1
+						li: a.white-text(href='#!') Link 2
+						li: a.white-text(href='#!') Link 3
+						li: a.white-text(href='#!') Link 4
+				.col.l3.s12
+					h5.white-text Connect
+					ul
+						li: a.white-text(href='#!') Link 1
+						li: a.white-text(href='#!') Link 2
+						li: a.white-text(href='#!') Link 3
+						li: a.white-text(href='#!') Link 4
+			.footer-copyright: .container
+				span= __("Copyright © 2013-%s Coinava, All rights reserved.", '2016')
+				
+				//__("© 2014-2016 Coinava, All rights reserved.") 
+
 
 
 		//- MODALS
 		block modal
 		if !user
-			#modal-auth(tabindex="-1", role="dialog", aria-labelledby="signin", aria-hidden="true").modal.fade
+			#modal-auth(tabindex="-1", role="dialog", aria-labelledby="signin", aria-hidden="true").modal
 				.modal-content
 					+auth-forms({ modal: true, initial: 'signin' })
 		//- JAVASCRIPT
-
 		//- jQuery 1.11.3 is included by default, and required by both Bootstrap
 		//- and the KeystoneJS Content Editor. If you are not targeting IE8,
 		//- you can upgrade to 2.1.4 (also bundled) for better performance.
@@ -108,7 +132,8 @@ html
 
 		//- Customise which Bootstrap javascript files are served by including
 		//- them specifically here, instead of bootstrap-3.3.5.min.js
-		script(src='/js/bootstrap/bootstrap-3.3.5.min.js')
+		// script(src='/js/bootstrap/bootstrap-3.3.5.min.js')
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js')
 
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
@@ -116,6 +141,13 @@ html
 			script(src='/keystone/js/content/editor.js')
 
 		//- Add scripts that are globally required by your site here.
+		script.
+			$(document).ready(function(){
+			    $('.modal-trigger').leanModal();
+				$('.button-collapse').sideNav();			    
+			});
+			
+		script(src='/js/ui.js')
 
 		//- Include template-specific javascript files by extending the js block
 		block js

@@ -20,15 +20,21 @@ var numeral = require('numeral');
 	or replace it with your own templates / logic.
 */
 exports.initLocals = function (req, res, next) {
-	res.locals.navLinks = [
+	var locals = res.locals;
+	
+	locals.navLinks = [
 		{ label: 'Home', key: 'home', href: '/' },
 		{ label: 'Blog', key: 'blog', href: '/blog' },
 		{ label: 'Gallery', key: 'gallery', href: '/gallery' },
 		{ label: 'Contact', key: 'contact', href: '/contact' },
 
 	];
-	res.locals.user = req.user;
-	
+	locals.user = req.user;
+
+	locals.page = {
+		title: 'Coinava',
+		path: req.url.split("?")[0] // strip the query - handy for redirecting back to the page
+	};	
 
 	next();
 };
@@ -63,6 +69,21 @@ exports.rates = function(req, res, next){
 	};
 	next();
 }
+
+exports.locale = function(req, res, next) {
+	// override preferred locale
+	req.i18n.setLocale(req.i18n.defaultLocale);
+	
+	if (req.query.lang) {
+		req.i18n.setLocaleFromQuery();
+		// res.cookie("lang", req.i18n.getLocale());
+	} else {
+		// req.i18n.setLocaleFromCookie();
+	}
+	res.locals.locale = req.i18n.getLocale();
+	next();
+}
+
 
 
 /**

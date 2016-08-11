@@ -5,7 +5,7 @@ var cheerio = require('cheerio');
 var marketData = {buy: 0, sell: 0}
 exports.getMarketData = () => marketData;
 
-const REFRESH_INTERVAL = 1000 * 60 * 20; // every 20 minutes
+const REFRESH_INTERVAL = 1000 * 60 * 200; // every 200 minutes
 refreshMarketData();
 setInterval(refreshMarketData, REFRESH_INTERVAL);
 

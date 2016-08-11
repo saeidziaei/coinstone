@@ -27,6 +27,7 @@ var i18n = require('i18n-2');
 keystone.pre('routes', middleware.initLocals);
 keystone.pre('render', middleware.flashMessages);
 keystone.pre('render', middleware.rates);
+keystone.pre('render', middleware.locale);
 
 // Import Route Controllers
 var routes = {
@@ -37,14 +38,27 @@ var routes = {
 exports = module.exports = function (app) {
 	i18n.expressBind(app, {
 	    // setup some locales - other locales default to en silently
-	    locales: ['fa']
+	    locales: ['fa', 'en'], 
+    	defaultLocale: 'fa',
 	});
+	
 	// Views
 	app.get('/', routes.views.index);
 	app.get('/blog/:category?', routes.views.blog);
 	app.get('/blog/post/:post', routes.views.post);
 	app.get('/gallery', routes.views.gallery);
 	app.all('/contact', routes.views.contact);
+	app.get('/how-it-works', routes.views['how-it-works'])
+	
+	app.all('/order', routes.views.order)
+
+	// Session
+	app.all('/signin', routes.views.session.signin);
+	app.get('/signout', routes.views.session.signout);
+	// app.all('/join', routes.views.session.join);
+	// app.all('/forgot-password', routes.views.session['forgot-password']);
+	// app.all('/reset-password/:key', routes.views.session['reset-password']);
+
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

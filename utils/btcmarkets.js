@@ -12,7 +12,7 @@ var marketData = {
     "volume24h":494.34984}
 exports.getMarketData = () => marketData;
 
-const REFRESH_INTERVAL = 1000 * 60 * 5; // every 5 minutes
+const REFRESH_INTERVAL = 1000 * 60 * 15; // every 15 minutes
 refreshMarketData();
 setInterval(refreshMarketData, REFRESH_INTERVAL);
 
