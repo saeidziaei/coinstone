@@ -1,18 +1,22 @@
 var keystone = require('keystone');
-
+var Order = keystone.list('Order');
 
 exports = module.exports = function (req, res) {
-
-
-	
-	
 	var view = new keystone.View(req, res);
 	var locals = res.locals;
 
 	// locals.section is used to set the currently selected
 	// item in the header navigation.
-	locals.section = 'how-it-works';
+	locals.section = 'me';
+	locals.page.title = "My Profile"
+	
+	view.query('myOrders', 
+		Order.model.find()
+			.where('customer', req.user)
+			.sort('-createdAt')
+	);
 
+	
 	// Render the view
-	view.render('how-it-works');
+	view.render('me');
 };

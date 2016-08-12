@@ -1,2 +1,7 @@
 mongod --bind_ip=$IP --nojournal
 rm /data/db/mongod.lock
+
+git add .
+git commit -m "First commit"
+Push your changes:
+git push -u origin master

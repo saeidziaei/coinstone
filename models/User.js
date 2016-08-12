@@ -12,6 +12,8 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, index: true },
 	phone: {type: String},
 	password: { type: Types.Password, initial: true, required: true },
+	emailConfirmationKey: { type: String, hidden: true },
+	emailConfirmed: { type: Boolean, default: false }
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
 	isRep: { type: Boolean, label: 'Is Coinava Rep', index: true },
@@ -51,6 +53,29 @@ User.schema.methods.resetPassword = function(callback) {
 		}, callback);
 	});
 }
+
+User.schema.pre('save', function(next){
+    var user = this;
+	if (!user.emailConfirmationKey){
+		user.emailConfirmationKey = keystone.utils.randomString([16,24]);
+	}
+	if (!user.emailConfirmed){
+		new keystone.Email('confirm-registration').send({
+			user: user,
+			link: '/confirm-registration/' + user.emailConfirmationKey,
+			subject: 'Confirm your Coinava registration',
+			to: user.email,
+			from: {
+				name: 'Coinava',
+				email: 'no-reply@coinava.com'
+			}
+		}, next);
+		
+	} else {
+		next();
+	}
+});
+
 
 
 /**

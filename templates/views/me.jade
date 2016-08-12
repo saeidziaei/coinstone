@@ -1,0 +1,12 @@
+extends ../layouts/default
+block content
+    .container
+        .row: .col.s12: .card: .card-content
+            span.card-title.blue-text
+                i.material-icons flash_on
+            p This is my profile
+            each o in myOrders
+                h3= 'Order ' + o.orderNumber + ': ' + o.btcAmount + ' btc ' + ' ' + o.message
+            .card-action
+                a(href='/order')= __("Order")
+

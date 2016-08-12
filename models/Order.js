@@ -9,7 +9,7 @@ var Order = new keystone.List('Order', {
 
 Order.add({
 	orderNumber: {type: Types.Number, required: false, index: true},
-	customer: { type: Types.Relationship, required: false, ref: 'User', index: true, initial: false },
+	customer: { type: Types.Relationship, required: true, ref: 'User', index: true, initial: false },
 	rep: { type: Types.Relationship, required: false, ref: 'User', filters:{isRep: true}, index: true, initial: false },
     status : {type: String, required: true, default: 'PENDING', index:true },
     orderType: { type: String, required: true, default: 'BUY'},

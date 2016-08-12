@@ -1,0 +1,6 @@
+extends layouts/base
+
+block content
+	p Hi #{user.name.first},
+	p Please click on the link below to complete your registration
+	a(href=host + link)= host + link

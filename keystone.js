@@ -74,6 +74,10 @@ keystone.set('nav', {
 });
 
 
+keystone.set('email transport', 'mailgun');
+keystone.set('mailgun api key', process.env.MAILGUN_API_KEY);
+keystone.set('mailgun domain', process.env.MAILGUN_DOMAIN);
+
 
 // Start Keystone to connect to your database and initialise the web server
 

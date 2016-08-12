@@ -76,9 +76,9 @@ exports.locale = function(req, res, next) {
 	
 	if (req.query.lang) {
 		req.i18n.setLocaleFromQuery();
-		// res.cookie("lang", req.i18n.getLocale());
+		res.cookie("lang", req.i18n.getLocale());
 	} else {
-		// req.i18n.setLocaleFromCookie();
+		req.i18n.setLocaleFromCookie();
 	}
 	res.locals.locale = req.i18n.getLocale();
 	next();
