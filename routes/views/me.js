@@ -8,11 +8,14 @@ exports = module.exports = function (req, res) {
 	// locals.section is used to set the currently selected
 	// item in the header navigation.
 	locals.section = 'me';
-	locals.page.title = "My Profile"
+	locals.page.title = "My Profile";
+	locals.momentj = require('moment-jalaali');
+	
 	
 	view.query('myOrders', 
 		Order.model.find()
 			.where('customer', req.user)
+			.populate('rep')
 			.sort('-createdAt')
 	);
 

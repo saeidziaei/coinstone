@@ -1,48 +1,34 @@
 extends ../layouts/default
 
-block intro
-	.container
-		h1= __("Order Form")
-		
 block content
 	.container
 		if enquirySubmitted
-			h3= __("Your order was submitted. We will be in touch")
-			h4= OrderNumber
+			h4= __("Your order was submitted.")
+			h5.green-text= __("Reference Number ") + OrderNumber
 		else
-			.row: .col.s12
-				form(method='post')
-					input(type='hidden', name='action', value='order')
-					.row
-						.col.s4
-							input(name='orderType', value='BUY', type='radio', id='buy' checked='checked').with-gap
-							label(for='buy')= __("Buy")
-						.col.s4
-							input(name='orderType', value='SELL' type='radio', id='sell').with-gap
-							label(for='sell')= __("Sell")
-					.row: .input-field.col.s12: .form-group(class=validationErrors.cardNumber ? 'has-error' : null).hide-for-buy.hidden
-						input(type='text', name='cardNumber', value=formData['cardNumber'], placeholder=__("Card Number")).validate
-						em= __("You need to be the owner of the card")
-					.row: .input-field.col.s12: .form-group(class=validationErrors.btcAddress ? 'has-error' : null).hide-for-sell
-						input(type='text', name='btcAddress', value=formData['btcAddress'], placeholder=__("BTC Address")).validate
-						em= __("BTC address will be double checked over the phone")
-					.row: .input-field.col.s12: .form-group(class=validationErrors.btcAmount ? 'has-error' : null)
-						input(type='text', name='btcAmount', value=formData['btcAmount'], placeholder=__("BTC Amount")).validate
-						em= __("The exact amount will be determined at the time of transaction")
-					.row: .input-field.col.s12: .form-group(class=validationErrors.message ? 'has-error' : null)
-						textarea(name='message', placeholder=__("Comment")).materialize-textarea.validate= formData.message
-					.form-actions
-						button(type='submit').btn.btn-primary= __("Save")
-block js
-	script.
-		$(document).ready(function(){
-			$("input[name='orderType']").on("change", function(){
-				if ($("#buy")[0].checked){
-					$(".hide-for-buy").hide();
-					$(".hide-for-sell").show();
-				} else {
-					$(".hide-for-sell").hide();
-					$(".hide-for-buy").show();
-				}
-			});
-		});
+			if (incompleteOrdersCount > 5)
+				h4.center= __("No new orders can be submitted. You have %s incomplete orders.", incompleteOrdersCount)
+				a(href='/me').btn.blue= __("My Profile")
+			else
+				.card-panel: .row: .col.s12
+					form(method='post')
+						input(type='hidden', name='action', value='order')
+						input(type='hidden', name='orderType', value=orderType)
+						.row: .col.s12
+							h3= __("Order Form") + ' ' + (orderType == 'BTCBUY' ? __("Buy") : __("Sell"))
+						if (orderType == 'BTCBUY')
+							.row: .input-field.col.s12: .form-group(class=validationErrors.btcAddress ? 'has-error' : null)
+								input(type='text', name='btcAddress', value=formData['btcAddress'], placeholder=__("BTC Address")).validate
+								em= __("BTC address will be double checked over the phone")
+						else
+							.row: .input-field.col.s12: .form-group(class=validationErrors.cardNumber ? 'has-error' : null)
+								input(type='text', name='cardNumber', value=formData['cardNumber'], placeholder=__("Card Number")).validate
+								em= __("You need to be the owner of the card")
+						.row: .input-field.col.s12: .form-group(class=validationErrors.btcAmount ? 'has-error' : null)
+							input(type='text', name='btcAmount', value=formData['btcAmount'], placeholder=__("BTC Amount")).validate
+							if (orderType == 'BTCBUY')
+								em= __("The exact amount will be determined at the time of transaction")
+						.row: .input-field.col.s12: .form-group(class=validationErrors.message ? 'has-error' : null)
+							textarea(name='message', placeholder=__("Comment")).materialize-textarea.validate= formData.message
+						.form-actions
+							button(type='submit').btn.blue= __("Go")

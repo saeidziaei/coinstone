@@ -1,0 +1,6 @@
+extends ../../layouts/default
+
+block content
+	h1= __("Signed out")
+	p.badge= __("See you again soon...")
+	p: a(href='/signin').btn= __("Sign in again")

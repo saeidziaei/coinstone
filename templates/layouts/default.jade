@@ -2,6 +2,15 @@ include ../mixins/flash-messages
 include ../mixins/rates-table
 include ../mixins/auth/auth-forms
 
+mixin links-list(navLinks)
+	each link in navLinks
+		li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+	if user
+		li.purple: a(href='/me')= user.name.first
+		li.orange: a(href='/signout')= __("Sign Out")
+	else
+		li.orange: a(href='#modal-auth').modal-trigger= __("Sign In")
+
 doctype html
 html
 
@@ -44,29 +53,15 @@ html
 		
 		nav.light-blue.lighten-1(role='navigation')
 			.nav-wrapper.container
-				a#logo-container.right.brand-logo(href='#') Logo
+				a#logo-container.right.brand-logo(href='/') 		
+					img(src='/images/logo.png', width='160')
+
 				ul.hide-on-med-and-down
-					each link in navLinks
-						li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+					+links-list(navLinks)
 				ul#nav-mobile.side-nav
-					each link in navLinks
-						li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+					+links-list(navLinks)
 				a.button-collapse(href='#', data-activates='nav-mobile')
 					i.material-icons menu
-		.container: .section: .row: .col.s12.center-align
-				if user
-					if user.canAccessKeystone
-						a(href='/keystone') Open Keystone
-					a(href='/signout')= __("Sign Out")
-				else
-					a(href='/keystone/signin').btn.waves-effect.waves-light.orange
-						span= __("Sign In")
-						i.material-icons.right input
-					a(href='#modal-auth').modal-trigger.waves-effect.waves-light.btn.orange
-						span= __("Sign Up") 
-						i.material-icons.right touch_app
-
-
 
 		//- BODY
 		#body
@@ -80,7 +75,9 @@ html
 
 			//- Flash messages allow you to display once-off status messages to users, e.g. form
 			//- validation errors, success messages, etc.
-			+flash-messages(messages)
+			block flash-messages
+				+flash-messages(messages)
+				
 			.row
 				.card.col.s12.m6.offset-m3
 					+rates-table(rates)
@@ -92,31 +89,8 @@ html
 		//- FOOTER
 
 		footer.page-footer.orange
-			.container: .row
-				.col.l6.s12
-					h5.white-text Company Bio
-					p.grey-text.text-lighten-4
-						| We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.
-				.col.l3.s12
-					h5.white-text Settings
-					ul
-						li: a.white-text(href='#!') Link 1
-						li: a.white-text(href='#!') Link 2
-						li: a.white-text(href='#!') Link 3
-						li: a.white-text(href='#!') Link 4
-				.col.l3.s12
-					h5.white-text Connect
-					ul
-						li: a.white-text(href='#!') Link 1
-						li: a.white-text(href='#!') Link 2
-						li: a.white-text(href='#!') Link 3
-						li: a.white-text(href='#!') Link 4
 			.footer-copyright: .container
-				span= __("Copyright © 2013-%s Coinava, All rights reserved.", '2016')
-				
-				//__("© 2014-2016 Coinava, All rights reserved.") 
-
-
+				span= __("Copyright © 2013-%s Coinava, All rights reserved.", new Date().getFullYear())
 
 		//- MODALS
 		block modal
@@ -151,3 +125,5 @@ html
 
 		//- Include template-specific javascript files by extending the js block
 		block js
+
+

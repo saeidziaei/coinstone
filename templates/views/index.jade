@@ -2,21 +2,21 @@ extends ../layouts/default
 
 block content
 	.container
-		img(src='/images/logo.svg', width='160')
 		#index-banner.section.no-pad-bot: .container
 			h1.header.center.orange-text= __("Welcome") 
 			.row.center
-				h5.header.col.s12.light A modern responsive front-end framework based on Material Design
-			.row.center
-				a#download-button.btn-large.waves-effect.waves-light.orange(href='http://materializecss.com/getting-started.html') Get Started
+				h5.header.col.s12.light=  __("Coinava is connecting Iranian bitcoin buyers and sellers")
 			br
 	.container: .section: .row
-		.col.s12.m4: .icon-block
-			h2.center.light-blue-text
-				i.material-icons flash_on
-			h5.center Speeds up development
-			p.light
-				| We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.
-block js
-	script.
-		!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+		.col.s12.m6: .icon-block.center
+			h2.light-blue-text
+				i.material-icons help
+			h5= __("What is Bitcoin")
+			p.light= __("index.whatIsBitcoin")
+			a#download-button.btn-large.waves-effect.waves-light.orange(href='https://bitcoin.org/fa/')= __("More details")
+		.col.s12.m6: .icon-block.center
+			h2.light-blue-text
+				i.material-icons ring_volume
+			h5= __("Our goal")
+			p.light= __("index.ourGoal")
+			a#download-button.btn-large.waves-effect.waves-light.orange(href='/how-it-works')= __("Start here")

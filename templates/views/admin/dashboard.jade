@@ -1,0 +1,24 @@
+extends ../../layouts/default
+block content
+    .container
+        .row: .col.s12
+            h3= __("Outstanding orders")
+            each o in outstandingOrders
+                .card
+                    .card-content
+                        .card-title= __("Order") + " " + o.orderNumber + " " + (o.orderType=='BTCSELL' ? __("Sell") : __("Buy"))
+                        .row
+                            .col.s6= __("BTC Amount") + ' ' + o.btcAmount
+                            .col.s6= __("BTC Address") + ' ' + o.btcAddress
+                        .row.blue.lighten-5: .col.s12= o.message
+                        p.grey-text= o._.createdAt.format('DD/MM/YYYY') + " " + o.status
+                        p.purple-text= (o.customer ? o.customer.name.full : '')
+                        p.pink-text= (o.rep ? o.rep.name.full : 'Not Assigned')
+                    .card-action
+                        p Assign To
+                        each r in reps
+                            form(method='post')
+                                input(type='hidden', name='action', value='assign-rep')
+                                input(type='hidden', name='rep_id', value=r._id)
+                                input(type='hidden', name='order_id', value=o._id)
+                                button(type='submit').btn.btn-flat= r.name.full

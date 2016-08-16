@@ -8,8 +8,21 @@ exports = module.exports = function (req, res) {
 
 	// Set locals
 	locals.section = 'contact';
+	locals.page.title = 'Contact Us';
 	locals.enquiryTypes = Enquiry.fields.enquiryType.ops;
+	var user = req.user;
+	var preFilled = user ? {
+		name : user.name.full,
+		phone: user.phone,
+		email: user.email
+
+	} : {};
+	
 	locals.formData = req.body || {};
+	locals.formData.name = locals.formData.name || preFilled.name;
+	locals.formData.phone = locals.formData.phone || preFilled.phone;
+	locals.formData.email = locals.formData.email || preFilled.email;
+	
 	locals.validationErrors = {};
 	locals.enquirySubmitted = false;
 

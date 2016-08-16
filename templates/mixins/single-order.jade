@@ -1,0 +1,19 @@
+mixin single-order(o)
+    .card: .card-content
+        h5.card-title
+            i.material-icons(class=o.orderType=='BTCSELL' ? 'orange-text' : 'blue-text') shopping_cart
+            span= __("Order") + " " + o.orderNumber + " " + (o.orderType=='BTCSELL' ? __("Sell") : __("Buy"))
+        .row
+            .col.s6= __("BTC Amount") + ' ' + o.btcAmount
+            .col.s6= __("BTC Address") + ' ' + o.btcAddress
+        .divider
+        .row: .col.s12: .section
+            span= o.message
+        if (locale == 'fa')    
+            p.grey-text= momentj(o.createdAt).format('jYYYY-jMM-jDD') + " " + o.status
+        else            
+            p.grey-text= o._.createdAt.format('DD/MM/YYYY') + " " + o.status
+        
+        .divider
+        .section
+            p.pink-text= (o.rep ? __("Assigned to") + " " + o.rep.name.full : '')

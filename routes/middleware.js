@@ -25,14 +25,13 @@ exports.initLocals = function (req, res, next) {
 	locals.navLinks = [
 		{ label: 'Home', key: 'home', href: '/' },
 		{ label: 'Blog', key: 'blog', href: '/blog' },
-		{ label: 'Gallery', key: 'gallery', href: '/gallery' },
 		{ label: 'Contact', key: 'contact', href: '/contact' },
 
 	];
 	locals.user = req.user;
 
 	locals.page = {
-		title: 'Coinava',
+		title: '',
 		path: req.url.split("?")[0] // strip the query - handy for redirecting back to the page
 	};	
 
@@ -92,8 +91,17 @@ exports.locale = function(req, res, next) {
 exports.requireUser = function (req, res, next) {
 	if (!req.user) {
 		req.flash('error', 'Please sign in to access this page.');
-		res.redirect('/keystone/signin');
+		res.redirect('/signin');
 	} else {
 		next();
+	}
+};
+
+exports.requireAdmin = function (req, res, next) {
+	if (req.user && req.user.canAccessKeystone) {
+		next();
+	} else {
+		req.flash('error', 'Invalid page.');
+		res.redirect('/signin');
 	}
 };

@@ -1,3 +1,4 @@
+var async = require('async');
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 var KeyService = keystone.list("KeyService");
@@ -12,7 +13,7 @@ Order.add({
 	customer: { type: Types.Relationship, required: true, ref: 'User', index: true, initial: false },
 	rep: { type: Types.Relationship, required: false, ref: 'User', filters:{isRep: true}, index: true, initial: false },
     status : {type: String, required: true, default: 'PENDING', index:true },
-    orderType: { type: String, required: true, default: 'BUY'},
+    orderType: { type: String, required: true, default: 'BTCBUY'},
     cardNumber: { type: String, required: false},
 	btcAmount: {type: Types.Number, required: true, initial: false},
     btcAddress: { type: String, required: false},
@@ -57,6 +58,35 @@ Order.schema.pre('save', function(next){
 
 
 });
+
+Order.schema.methods.notifyAdmin = function(callback) {
+	var order = this;
+	// Method to send the notification email after data has been loaded
+	var sendEmail = function(err, results) {
+		if (err) return callback(err);
+		var admin = results.admin;
+		new keystone.Email('admin-notification-new-order').send({
+				admin: admin.name.first || admin.name.full,
+				customer: results.customer ? results.customer.name.full : 'Somebody',
+				orderURL: '/admin/order/' + order._id,
+				subject: 'New Order to Coinava',
+				to: 'saeid.ziaei@cba.com.au', // admin.email,
+				from: {
+					name: 'Coinava Website',
+					email: 'dev@coinava.com'
+				}
+			}, callback);
+	}
+	// Query data in parallel
+	async.parallel({
+		customer: function(next) {
+			keystone.list('User').model.findById(order.customer).exec(next);
+		},
+		admin: function(next) {
+			keystone.list('User').model.findOne().where('isAdmin', true).exec(next)
+		}
+	}, sendEmail);
+};
 
 
 

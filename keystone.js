@@ -59,6 +59,14 @@ keystone.set('email locals', {
 			border_color: '#1a7cb7',
 		},
 	},
+	utils: keystone.utils,
+	host: (function() {
+		if (keystone.get('env') === 'staging') return 'http://coinava-beta.herokuapp.com';
+		if (keystone.get('env') === 'production') return 'http://www.coinava.com';
+		if (keystone.get('env') === 'development') return 'http://coinava-sziaei.c9users.io:8080';
+		return (keystone.get('host') || 'http://localhost:') + (keystone.get('port') || '3000');
+	})()
+
 });
 
 // Load your project's email test routes
@@ -80,5 +88,7 @@ keystone.set('mailgun domain', process.env.MAILGUN_DOMAIN);
 
 
 // Start Keystone to connect to your database and initialise the web server
+
+
 
 keystone.start();
