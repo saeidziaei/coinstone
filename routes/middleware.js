@@ -24,7 +24,9 @@ exports.initLocals = function (req, res, next) {
 	
 	locals.navLinks = [
 		{ label: 'Home', key: 'home', href: '/' },
-		{ label: 'Blog', key: 'blog', href: '/blog' },
+		{ label: 'Guide', key: 'blog', href: '/how-it-works' },
+		{ label: 'Buy', key: 'buy', href: '/order/buybtc' },
+		{ label: 'Sell', key: 'sell', href: '/order/sellbtc' },
 		{ label: 'Contact', key: 'contact', href: '/contact' },
 
 	];
@@ -80,10 +82,20 @@ exports.locale = function(req, res, next) {
 		req.i18n.setLocaleFromCookie();
 	}
 	res.locals.locale = req.i18n.getLocale();
+	res.locals.FARSI = req.i18n.translate('fa', 'Farsi');
 	next();
 }
 
-
+exports.resendConfirmationEmail = function(req, res, next) {
+	req.user.confirmEmail(function(err){
+		if (err) {
+			req.flash('error', 'There is an issue!');
+		} else {
+			req.flash('success', 'The email was sent!');
+		}
+   		res.redirect('/signin');
+	});
+}
 
 /**
 	Prevents people from accessing protected pages when they're not signed in

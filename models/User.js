@@ -1,3 +1,4 @@
+var async = require('async');
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -13,7 +14,9 @@ User.add({
 	phone: {type: String},
 	password: { type: Types.Password, initial: true, required: true },
 	emailConfirmationKey: { type: String, hidden: true },
-	emailConfirmed: { type: Boolean, default: false }
+	emailConfirmed: { type: Boolean, default: false }, 
+	confirmRetryCount: {type: Number, default: 0 },
+	
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
 	isRep: { type: Boolean, label: 'Is Coinava Rep', index: true },
@@ -53,13 +56,10 @@ User.schema.methods.resetPassword = function(callback) {
 		}, callback);
 	});
 }
-
-User.schema.pre('save', function(next){
-    var user = this;
-	if (!user.emailConfirmationKey){
-		user.emailConfirmationKey = keystone.utils.randomString([16,24]);
-	}
-	if (!user.emailConfirmed){
+User.schema.methods.confirmEmail = function(callback) {
+	var user = this;
+	var sendEmail = function(err){
+		if (err) return callback(err);
 		new keystone.Email('confirm-registration').send({
 			user: user,
 			link: '/confirm-registration/' + user.emailConfirmationKey,
@@ -69,17 +69,32 @@ User.schema.pre('save', function(next){
 				name: 'Coinava',
 				email: 'no-reply@coinava.com'
 			}
-		}, next);
-		
-	} else {
-		next();
+		}, callback);
 	}
-});
-
+	async.series([
+		function(next) {
+			if (!user.emailConfirmationKey){
+				user.emailConfirmationKey = keystone.utils.randomString([16,24]);
+				user.save(next);
+			} else {
+				next(null);
+			}
+		}, 
+		function (next) {
+			user.confirmRetryCount++;
+			if (user.confirmRetryCount > 3){
+				return next("Too many confirmation retries")
+			} else {
+				user.save(next);
+			}
+		}
+	], sendEmail);
+	
+} 
 
 
 /**
  * Registration
  */
-User.defaultColumns = 'name, email, phone, isAdmin, isRep';
+User.defaultColumns = 'name, email, phone, isAdmin, isRep, emailConfirmed';
 User.register();

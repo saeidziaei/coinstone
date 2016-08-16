@@ -4,13 +4,17 @@ include ../mixins/auth/auth-forms
 
 mixin links-list(navLinks)
 	each link in navLinks
-		li(class=(section == link.key ? 'active' : null)): a(href=link.href)= link.label
+		li(class=(section == link.key ? 'active' : null)): a(href=link.href)= __(link.label)
 	if user
 		li.purple: a(href='/me')= user.name.first
 		li.orange: a(href='/signout')= __("Sign Out")
 	else
 		li.orange: a(href='#modal-auth').modal-trigger= __("Sign In")
-
+	if locale == 'fa' 
+		li: a(href='/?lang=en') English
+	else
+		li: a(href='/?lang=fa')= FARSI
+			
 doctype html
 html
 

@@ -52,5 +52,9 @@
 	"Sign in": "Sign in",
 	"Please sign in to access this page.": "Please sign in to access this page.",
 	"No new orders can be submitted. You have %s incomlete orders.": "No new orders can be submitted. You have %s incomlete orders.",
-	"No new orders can be submitted. You have %s incomplete orders.": "No new orders can be submitted. You have %s incomplete orders."
+	"No new orders can be submitted. You have %s incomplete orders.": "No new orders can be submitted. You have %s incomplete orders.",
+	"Home": "Home",
+	"Guide": "Guide",
+	"Contact": "Contact",
+	"Farsi": "Farsi"
 }

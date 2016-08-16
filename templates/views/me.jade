@@ -4,7 +4,12 @@ extends ../layouts/default
 block content
     .container
         if !user.emailConfirmed
-            .section: h5.pink-text= __("Please confirm your email. We have sent you an email containing the link to do this!")
+            .section.pink-text
+                h5= __("Please confirm your email. We have sent you an email containing the link to do this!")
+                    form(method='post', action='/resend-confirmation-email')
+                        button(type='submit', name='action').btn.btn-flat.waves-effect.waves-light
+                            i.material-icons.left send
+                            span= __("Send Again")
         .row: .col.s12
                 h5= __("My orders")
                 each o in myOrders

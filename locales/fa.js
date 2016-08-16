@@ -63,5 +63,14 @@
 	"Reference Number ": "شماره رهگیری ",
 	"No new orders can be submitted. You have %s incomplete orders.": "شما %s سفارش در دست انجام دارید و نمی‌توانید درخواست جدید ایجاد کنید",
 	"No new orders can be submitted": "درخواست جدیدی قابل ایجاد نیست",
-	"Please confirm your email. We have sent you an email containing the link to do this!": "لطفا برای ثبت نام ایمیل خود را تایید کنید. ایمیلی را که ما برای شما فرستاده‌ایم را ببینید"
+	"Please confirm your email. We have sent you an email containing the link to do this!": "لطفا برای ثبت نام ایمیل خود را تایید کنید. ایمیلی را که ما برای شما فرستاده‌ایم را ببینید",
+	"Your username or password were incorrect, please try again.": "Your username or password were incorrect, please try again.",
+	"Send Again": "دوباره بفرست",
+	"Please sign in to access this page.": "Please sign in to access this page.",
+	"There is an issue!": "There is an issue!",
+	"link.label": "link.label",
+	"Home": "خانه",
+	"Contact": "تماس با ما",
+	"Guide": "راهنما",
+	"Farsi": "فارسی"
 }

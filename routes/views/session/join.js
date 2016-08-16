@@ -49,7 +49,8 @@ exports = module.exports = function(req, res) {
 					newUser = new User(userData);
 				
 				newUser.save(function(err) {
-					return cb(err);
+					if (err) return cb(err);
+					newUser.confirmEmail(cb)
 				});
 			
 			}

@@ -58,9 +58,9 @@ exports = module.exports = function (app) {
 	app.get('/signout', routes.views.session.signout);
 	app.all('/join', routes.views.session.join);
 	app.get('/confirm-registration/:key', routes.views.session['confirm-registration']);
-//	app.all('/forgot-password', routes.views.session['forgot-password']);
-//	app.all('/reset-password/:key', routes.views.session['reset-password']);
-
+	app.all('/forgot-password', routes.views.session['forgot-password']);
+	app.all('/reset-password/:key', routes.views.session['reset-password']);
+	app.post('/resend-confirmation-email', middleware.requireUser, middleware.resendConfirmationEmail)
 	app.all('/admin*', middleware.requireAdmin);
 	app.all('/admin/dashboard', routes.views.admin.dashboard);
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
