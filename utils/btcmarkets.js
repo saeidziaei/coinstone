@@ -17,6 +17,7 @@ refreshMarketData();
 setInterval(refreshMarketData, REFRESH_INTERVAL);
 
 function refreshMarketData(){
+    try {
     fetch('https://api.btcmarkets.net/market/BTC/AUD/tick')
         .then(function(res) {
             return res.json();
@@ -24,5 +25,8 @@ function refreshMarketData(){
             marketData = json;
             console.log("btcmarkets rates refreshed.")
         });
+    } catch (e) {
+        ; // do nothing
+    }
 }
 

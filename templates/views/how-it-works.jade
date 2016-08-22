@@ -10,8 +10,28 @@ mixin step(message, icon_name, link, link_text)
 
 block content
     .container 
+        .card-panel.light-green.lighten-4
+            = __("Are you new to bitcoin?")
+            &nbsp;
+            a(href='#beginners')= __("Start Here")
         +step("howItWorks.step1", 'account_circle', '/signin', 'here')
         +step("howItWorks.step2",'create', '/order', 'here')
         +step("howItWorks.step3", 'contact_phone', '/signin', 'More details')        
         +step("howItWorks.step4", 'loop', '/signin', 'here')        
-        +step("howItWorks.step5", 'shuffle', '/signin', 'here')                
+        +step("howItWorks.step5", 'shuffle', '/signin', 'here')
+        a(name='beginners')
+        h2= __("About Bitcoin")
+        .section
+            p= __("howItWorks.intro")
+            a(href='https://bitcoin.org/fa').btn.orange= __('bitcoin.org')
+        .divider
+        .section
+            .video-container
+                iframe(width="853", height="480", src="//www.youtube.com/embed/TF4Hawo7xAw?rel=0", frameborder="0", allowfullscreen)
+        .section
+            .video-container
+                iframe(width="853", height="480", src="//www.youtube.com/embed/qX2pDXMou04?rel=0", frameborder="0", allowfullscreen)
+        .section
+            .video-container
+                iframe(width="853", height="480", src="//www.youtube.com/embed/3o-pypXhEdk?rel=0", frameborder="0", allowfullscreen)
+      

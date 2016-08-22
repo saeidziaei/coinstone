@@ -8,8 +8,9 @@
  * modules in your project's /lib directory.
  */
 var _ = require('lodash');
-var moneymex = require("../utils/moneymex.js")
-var btcmarkets = require("../utils/btcmarkets.js")
+// var moneymex = require("../utils/moneymex");
+var oxe = require("../utils/oxe");
+var btcmarkets = require("../utils/btcmarkets");
 var numeral = require('numeral');
 
 /**
@@ -58,7 +59,7 @@ exports.flashMessages = function (req, res, next) {
 const BUY_COMMISSION = 0.06; // 6%
 const SELL_COMMISSION = 0.04; // 4% 
 exports.rates = function(req, res, next){
-	var irr = moneymex.getMarketData();
+	var irr = oxe.getMarketData();
 	var btc = btcmarkets.getMarketData();
 	btc.buy = btc.bestAsk * (1 + BUY_COMMISSION);
 	btc.sell = btc.bestBid * (1 - SELL_COMMISSION);

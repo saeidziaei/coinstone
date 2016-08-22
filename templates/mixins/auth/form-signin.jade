@@ -19,15 +19,16 @@ mixin form-signin(args)
 				input(type='hidden', name='target', value=!args.modal ? form.target : page.path)
 				.form-groups
 					.form-group
-						label(for='signin-email').sr-only Email
-						input(type='email', name='email', placeholder='Email', id='signin-email', value=locals.form ? locals.form.email : null).form-control.form-control--first
+						label(for='signin-email').sr-only= __("Email")
+						input(type='email', name='email', placeholder=__('Email'), id='signin-email', value=locals.form ? locals.form.email : null).form-control.form-control--first
 					.form-group
-						label(for='signin-password').sr-only Password
-						input(type='password', name='password', placeholder='Password', id='signin-password', value='').form-control.form-control--last
+						label(for='signin-password').sr-only= __("Password")
+						input(type='password', name='password', placeholder=__('Password'), id='signin-password', value='').form-control.form-control--last
 				button(type='submit').btn.blue= __("Go")
 			
 			.row.text-muted.mt-3
 				.col.s8= __("Don't have an account?")
+					= " "
 					a(href=args.modal ? js : '/join', rel=args.modal ? 'modal-pane' : null, data-modal-pane=args.modal ? 'join' : null)= __("Join Coinava")
 				.col-s4.right
 					a(href=args.modal ? js : '/forgot-password', rel=args.modal ? 'modal-pane' : null, data-modal-pane=args.modal ? 'password' : null)= __("Forgot password?")

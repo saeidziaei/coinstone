@@ -56,5 +56,11 @@
 	"Home": "Home",
 	"Guide": "Guide",
 	"Contact": "Contact",
-	"Farsi": "Farsi"
+	"Farsi": "Farsi",
+	"Are you new to bitcoin?": "Are you new to bitcoin?",
+	"Start Here": "Start Here",
+	"howItWorks.intro": "howItWorks.intro",
+	"About Me": "About Me",
+	"about.me.p1": "about.me.p1",
+	"about.me.p2": "about.me.p2"
 }

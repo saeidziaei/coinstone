@@ -44,10 +44,11 @@ exports = module.exports = function (app) {
 	
 	// Views
 	app.get('/', routes.views.index);
-	app.get('/blog/:category?', routes.views.blog);
-	app.get('/blog/post/:post', routes.views.post);
+	// app.get('/blog/:category?', routes.views.blog);
+	// app.get('/blog/post/:post', routes.views.post);
 	app.all('/contact', routes.views.contact);
 	app.get('/how-it-works', routes.views['how-it-works']);
+	app.get('/about', routes.views.about);
 	app.all('/me*', middleware.requireUser);
 	app.get('/me', routes.views.me);
 	
@@ -61,9 +62,9 @@ exports = module.exports = function (app) {
 	app.all('/forgot-password', routes.views.session['forgot-password']);
 	app.all('/reset-password/:key', routes.views.session['reset-password']);
 	app.post('/resend-confirmation-email', middleware.requireUser, middleware.resendConfirmationEmail)
+	
+	
 	app.all('/admin*', middleware.requireAdmin);
 	app.all('/admin/dashboard', routes.views.admin.dashboard);
-	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
-	// app.get('/protected', middleware.requireUser, routes.views.protected);
 
 };

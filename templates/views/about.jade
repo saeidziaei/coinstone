@@ -1,0 +1,23 @@
+extends ../layouts/default
+block content
+    .container
+        h1= __("About Me")
+        .row
+            .col.s10
+                p.black-text= __("about.me.p1")
+                .row
+                    .col.m6.s12
+                        a(href='http://persianshoes.com/')
+                            .card.hoverable: img(src='/images/persian-shoes.png', alt='Persian Shoes Website').responsive-img
+                    .col.m6.s12: p.black-text= __("about.me.p2")
+                p.black-text= __("about.me.p3")
+            .col.s2
+                img(src='/images/sz.jpg').responsive-img.circle
+    .section.teal: .container.white-text
+        .row
+            .col.m6.s12: card
+                p= __("Tehran") + " " + tehranTime
+                p= __("Sydney") + " " + sydneyTime
+            .col.m6.s12: card
+                p= __("Phone") + " " + "0061432331409"
+                p= __("Address")  + " " + "Number 201 Sussex Street, Sydney, NSW"
